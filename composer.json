@@ -1,5 +1,5 @@
 {
-    "name": "vladkens/vk",
+    "name": "tigokr/vk",
     "type": "library",
     "description": "The PHP class for vk.com API with support OAuth.",
     "keywords": ["vk", "vk.com", "api", "oauth"],
@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-0": {
-            "VK": "src"
+            "tigokr\\vk": "src/vk"
         }
     }
 }

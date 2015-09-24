@@ -1,12 +1,12 @@
 <?php
 
 /**
- * The exception class for VK library.
+ * The exception class for vk library.
  * @author Vlad Pronsky <vladkens@yandex.ru>
- * @license https://raw.github.com/vladkens/VK/master/LICENSE MIT
+ * @license https://raw.github.com/vladkens/vk/master/LICENSE MIT
  */
 
-namespace VK;
+namespace tigokr\vk;
  
 class VKException extends \Exception {  }
 

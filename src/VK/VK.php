@@ -3,21 +3,21 @@
 /**
  * The PHP class for vk.com API and to support OAuth.
  * @author Vlad Pronsky <vladkens@yandex.ru>
- * @license https://raw.github.com/vladkens/VK/master/LICENSE MIT
+ * @license https://raw.github.com/vladkens/vk/master/LICENSE MIT
  */
 
-namespace VK;
+namespace tigokr\vk;
 
 class VK
 {
     /**
-     * VK application id.
+     * vk application id.
      * @var string
      */
     private $app_id;
 
     /**
-     * VK application secret key.
+     * vk application secret key.
      * @var string
      */
     private $api_secret;
@@ -29,7 +29,7 @@ class VK
     private $api_version;
 
     /**
-     * VK access token.
+     * vk access token.
      * @var string
      */
     private $access_token;
@@ -48,6 +48,7 @@ class VK
 
     const AUTHORIZE_URL = 'https://oauth.vk.com/authorize';
     const ACCESS_TOKEN_URL = 'https://oauth.vk.com/access_token';
+    const TOKEN_URL = 'https://oauth.vk.com/token';
 
     /**
      * Constructor.
@@ -119,13 +120,34 @@ class VK
             'client_id' => $this->app_id,
             'scope' => $api_settings,
             'redirect_uri' => $callback_url,
-            'response_type' => 'code'
+            'response_type' => 'token'
         );
 
         if ($test_mode)
             $parameters['test_mode'] = 1;
 
         return $this->createUrl(self::AUTHORIZE_URL, $parameters);
+    }
+
+    public function getToken($login, $password)
+    {
+
+        throw new \Exception('Need to be an official VK app');
+
+        $parameters = array(
+            'grant_type' => 'password',
+            'client_id' => $this->app_id,
+            'client_secret' => $this->api_secret,
+            'username' => $login,
+            'password' => $password,
+            'scope' => 'wall,messages,offline',
+        );
+
+        $url = $this->createUrl(self::TOKEN_URL, $parameters);
+
+        $response = json_decode($this->request($url), true);
+
+        return $response['token'];
     }
 
     /**
@@ -210,6 +232,8 @@ class VK
 
         $sig = '';
         foreach ($parameters as $key => $value) {
+            if(is_array($value))
+                $value = implode(', ', $value);
             $sig .= $key . '=' . $value;
         }
         $sig .= $this->api_secret;
@@ -247,19 +271,7 @@ class VK
      */
     private function request($url, $method = 'GET', $postfields = array())
     {
-        curl_setopt_array($this->ch, array(
-            CURLOPT_USERAGENT => 'VK/1.0 (+https://github.com/vladkens/VK))',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_POST => ($method == 'POST'),
-            CURLOPT_POSTFIELDS => $postfields,
-            CURLOPT_URL => $url
-        ));
-
-        return curl_exec($this->ch);
+        return Request::request($url, $method, $postfields);
     }
 
 }
-
-;
-
