@@ -11,7 +11,6 @@ namespace tigokr\vk;
 
 class Request
 {
-
     static public $agent = 'vk/1.0 (+https://github.com/vladkens/vk))';
 
     public static function request($url, $method = 'GET', $postfields = array()){
