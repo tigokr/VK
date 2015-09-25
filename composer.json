@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "tigokr\\vk": "src/vk"
+            "tigokr\\vk\\": "src/vk"
         }
     }
 }
