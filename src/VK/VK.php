@@ -120,7 +120,7 @@ class VK
             'client_id' => $this->app_id,
             'scope' => $api_settings,
             'redirect_uri' => $callback_url,
-            'response_type' => 'token'
+            'response_type' => 'code'
         );
 
         if ($test_mode)
@@ -201,9 +201,7 @@ class VK
     {
         $token = is_null($access_token) ? $this->access_token : $access_token;
         if (is_null($token)) return false;
-
-        $rs = $this->api('getUserSettings', array('access_token' => $token));
-        return isset($rs['response']);
+        return $this->api('getUserSettings', array('access_token' => $token));
     }
 
     /**
