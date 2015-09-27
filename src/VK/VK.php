@@ -114,13 +114,13 @@ class VK
      * @return  string
      */
     public function getAuthorizeUrl($api_settings = '',
-                                    $callback_url = 'https://api.vk.com/blank.html', $test_mode = false)
+                                    $callback_url = 'https://api.vk.com/blank.html', $type = 'token', $test_mode = false)
     {
         $parameters = array(
             'client_id' => $this->app_id,
             'scope' => $api_settings,
             'redirect_uri' => $callback_url,
-            'response_type' => 'code'
+            'response_type' => $type
         );
 
         if ($test_mode)
